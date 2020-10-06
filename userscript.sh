@@ -1,6 +1,6 @@
 #!/bin/bash
 # Create users with ssh key auth (only no passwords), by G. Smith Feb 2014-2020
-# Requires users.txt containing list of student ids and
+# Requires users.txt containing list of user ids and
 # the following binaries installed: ssh zip puttygen shred
 #
 # Note switches for adduser differ on Redhat based systems to Debian based and may need amending.
@@ -32,4 +32,9 @@ chmod 644 /home/$nonroot/user_private_keys_`date +"%d-%m-%y"`.zip
 
 # Clean up cached private keys from tmp folder
 shred -u -f /tmp/id_rsa.*
+
+# Make a backup of users.txt
+mv --backup=t users.txt users.`date +"%Hh-%Mm-%d-%m-%y"`.txt
+
+
 echo "done!"
