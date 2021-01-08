@@ -1,40 +1,52 @@
 #!/bin/bash
-# Create users with ssh key auth (only no passwords), by G. Smith Feb 2014-2020
-# Requires users.txt containing list of user ids and
-# the following binaries installed: ssh zip puttygen shred
+# Create users, by G. Smith Feb 2014-2021
+# Requires users.txt containing list of student ids (usernames) as input in the current directory
 #
-# Note switches for adduser differ on Redhat based systems to Debian based and may need amending.
-
-nonroot="gsmith"
+# Depenencies: putty-tools (for puttygen) for ppk key generation, zip for packing the files for users
+#
+# NOTE: Paths and command switches may differ for other Linux distros, this is built for Debian
+# so please test before using for bulk.
 
 # Stop script on error
 set -e
 
-# Cycle through user accounts list 
+# Select a non-root local user to collect the resulting file of ssh keys for distribution
+nonroot="gsmith"
 
+# convert all student IDs to lowercase:
+cat users.txt | tr [:upper:] [:lower:] > usersL.txt; mv usersL.txt users.txt
+
+len=`cat users.txt | wc -l`
+count=0
+
+# Cycle through student accounts list of X numbers:
 for username in `cat users.txt`
+
         do
         # Create user account
-        adduser --force-badname --disabled-password --home /home/$username --gecos user,x,x,x,x --shell /bin/bash $username
+        adduser --home /home/$username --disabled-password --gecos "" --shell /bin/bash $username
         # Generate ssh key as each user
         su - -c "ssh-keygen -q -f ~/.ssh/id_rsa -N '' -C $username" $username
         su - -c "cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys" $username
         # Copy private key per user to temp directory
         su - -c "cp ~/.ssh/id_rsa /tmp/id_rsa.$username" $username
+        # Create putty key with puttygen ~/.ssh/id_rsa -o id_rsa.ppk
         su - -c "puttygen ~/.ssh/id_rsa -o /tmp/id_rsa.$username.ppk" $username
+        # Show Progress
+        ((++count))
+        echo $((count*100/len)) |  dialog --gauge "waiting" 7 50
+
 done
 
-# Archive the student private keys in openssh format for delivery
-zip -r /home/$nonroot/user_private_keys_`date +"%d-%m-%y"`.zip /tmp/id_rsa.*
-# Allow collection of keys for non-root user to download. 
-# Alternatively this can be copied to a collection point with rclone or scp etc
-chmod 644 /home/$nonroot/user_private_keys_`date +"%d-%m-%y"`.zip
+# Archive the student private keys in openssh format for delivery:
+zip -r /home/$nonroot/private_keys_`date +"%d-%m-%y"`.zip /tmp/id_rsa.*
+chmod 644 /home/$nonroot/private_keys_`date +"%d-%m-%y"`.zip
 
-# Clean up cached private keys from tmp folder
+# Clean up cached private keys from temp folder for security:
 shred -u -f /tmp/id_rsa.*
 
-# Make a backup of users.txt
+# Backup the inputfile for future use
 mv --backup=t users.txt users.`date +"%Hh-%Mm-%d-%m-%y"`.txt
 
-
-echo "done!"
+dialog --msgbox "Complete! file collection from /home/$nonroot" 7 50
+clear
