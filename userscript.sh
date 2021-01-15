@@ -16,8 +16,11 @@ nonroot="gsmith"
 # convert all student IDs to lowercase:
 cat users.txt | tr [:upper:] [:lower:] > usersL.txt; mv usersL.txt users.txt
 
+# Length of file
 len=`cat users.txt | wc -l`
+# Start counter at zero
 count=0
+
 
 # Cycle through student accounts list of X numbers:
 for username in `cat users.txt`
@@ -45,7 +48,6 @@ chmod 644 /home/$nonroot/private_keys_`date +"%d-%m-%y"`.zip
 # Clean up cached private keys from temp folder for security:
 shred -u -f /tmp/id_rsa.*
 
-# Backup the inputfile for future use
 mv --backup=t users.txt users.`date +"%Hh-%Mm-%d-%m-%y"`.txt
 
 dialog --msgbox "Complete! file collection from /home/$nonroot" 7 50
