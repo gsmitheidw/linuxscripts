@@ -15,6 +15,7 @@ applications=$(dialog --checklist "Choose software" 10 40 3 \
         curl . on \
         mc . on \
         lshw . on \
+        moreutils . \
         git . off \
         aria2c . off \
         monit . off \
