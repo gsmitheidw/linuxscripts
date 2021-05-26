@@ -16,12 +16,25 @@ applications=$(dialog --checklist "Choose software" 10 40 3 \
         mc . on \
         lshw . on \
         moreutils . \
+        iotop . \
+        mtr . \
+        screenfetch . \
+        freeipmi . \
+        iptraf . \
+        ttyload . \
+        multitail . \
+        lsof . \
+        rsync .\
         git . off \
         aria2c . off \
         monit . off \
         ccze . off \
         ffmpeg . off \
+        expect . off \
+        autossh . off \
         sysstat . off \
+        tcpdump . off \
+        smartmontools . \
         httping . off \
         netcat . off  2>&1 > /dev/tty)
 
@@ -47,7 +60,8 @@ unattended-upgrade -d --dry-run
 }
 
 
-
 # call functions:
 install_apps
 #setup_unattended
+# markdown viewer
+#pip install mdv
