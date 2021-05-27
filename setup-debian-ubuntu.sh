@@ -1,23 +1,30 @@
+#!/bin/bash 
+
 # Setting up new Linux system
+
+# define exit codes
+: ${DIALOG_OK=0}
+: ${DIALOG_CANCEL=1}
 
 # uncommment if proxy required:
 #export http_proxy=''
 #export https_proxy=''
 
 # Install some apps
-install_apps {
 
-applications=$(dialog --checklist "Choose software"  20 20 30 \
-        vim . on \
+install_apps () {
+
+applications=$(dialog --checklist "Choose software"  20 30 30 \
+        vim . on  \
         screen . on \
-        fail2ban . on \
-        htop . on \
-        curl . on \
-        mc . on \
-        lshw . on \
+        fail2ban . off \
+        htop . off \
+        curl . off \
+        mc . off \
+        lshw . off \
         moreutils . off \
         iotop . off \
-        mtr . on \
+        mtr . off \
         screenfetch . off \
         freeipmi . off \
         iptraf . off \
@@ -38,32 +45,42 @@ applications=$(dialog --checklist "Choose software"  20 20 30 \
         httping . off \
         netcat . off  2>&1 > /dev/tty)
 
-apt install $applications -y
-return 0;
+
+	return_value=$?
+
+	case $return_value in
+		$DIALOG_OK)
+		apt install $applications -y;;
+		$DIALOG_CANCEL)
+		exit
+
+	;;
+	esac
 }
 
-#× if screen installed:
-dpkg -s screen &> /dev/null
-if [ "$?" = "0" ];
+
+# if screen installed:
+config_screen () {
+	dpkg -s screen &> /dev/null
+	if [ "$?" = "0" ];
 	then
-	echo GNU screen installed, downloading config to current user
-	wget -O - https://gist.githubusercontent.com/gsmitheidw/6ec6eb2dce79fde80f51c7e98f17a327/raw/027c87b77841d24b3cc4421fc621a5413b51afa2/.screenrc > ~/.screenrc
-fi
-
-
+		echo GNU screen installed, downloading config to current user
+		wget -O - https://gist.githubusercontent.com/gsmitheidw/6ec6eb2dce79fde80f51c7e98f17a327/raw/027c87b77841d24b3cc4421fc621a5413b51afa2/.screenrc > ~/.screenrc
+	fi
+}
 
 # Setup unattended upgrades
-setup_unattended {
-        apt install unattended-upgrades apt-listchanges
-        dpkg-reconfigure unattended-upgrades
-        vim /etc/apt/apt.conf.d/50unattended-upgrades
-        unattended-upgrade -d --dry-run
-}
+# setup_unattended {
+#        apt install unattended-upgrades apt-listchanges
+#        dpkg-reconfigure unattended-upgrades
+#        vim /etc/apt/apt.conf.d/50unattended-upgrades
+#        unattended-upgrade -d --dry-run
+#}
 
 
 # call functions:
 install_apps
-
-#setup_unattended
-# markdown viewer
-#pip install mdv
+config_screen 
+# setup_unattended
+# markdown viewer:
+# pip install mdv
