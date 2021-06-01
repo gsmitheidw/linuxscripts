@@ -76,6 +76,8 @@ config_screen () {
 	if [ "$?" = "0" ];
 	then
 		echo GNU screen installed, downloading config to current user
+	# Don't overwite an existing config:
+		set -o noclobber
 		wget -O - https://gist.githubusercontent.com/gsmitheidw/6ec6eb2dce79fde80f51c7e98f17a327/raw/027c87b77841d24b3cc4421fc621a5413b51afa2/.screenrc > ~/.screenrc
 	fi
 }
