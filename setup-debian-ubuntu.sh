@@ -12,6 +12,17 @@
 
 # Install some apps
 
+
+install_dialog () {
+	dpkg -s dialog &> /dev/null
+	if [ "$?" = "1" ];
+	then
+		echo install dialog as prerequisite....
+		apt install dialog -y
+	fi
+}
+
+
 install_apps () {
 
 applications=$(dialog --checklist "Choose software"  20 30 30 \
@@ -79,6 +90,7 @@ config_screen () {
 
 
 # call functions:
+install_dialog
 install_apps
 config_screen 
 # setup_unattended
