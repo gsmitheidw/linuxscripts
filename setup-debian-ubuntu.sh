@@ -45,7 +45,8 @@ applications=$(dialog --checklist "Choose software"  20 30 30 \
         rsync . off \
         git . off \
         aria2c . off \
-        monit . off \
+	qemu-guest-agent . off \
+	monit . off \
         ccze . off \
         ffmpeg . off \
         expect . off \
