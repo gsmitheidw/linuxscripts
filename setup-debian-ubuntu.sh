@@ -91,7 +91,7 @@ config_screen () {
 #        unattended-upgrade -d --dry-run
 #}
 
-#sed -i 's/#set background=dark/set background=dark/g' /etc/vim/vimrc
+#sed -i 's/"set background=dark/set background=dark/g' /etc/vim/vimrc
 
 
 # call functions:
