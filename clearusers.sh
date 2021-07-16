@@ -1,10 +1,10 @@
 #!/bin/bash
 
-for username in $(cat users.txt)
+cat users.txt | while IFS= read -r username
 
         do
         userdel -f -r "$username"
 
 done
 
-Echo "Done!"
+echo "Done!"
