@@ -12,9 +12,12 @@ set -e
 
 # Select a non-root local user to collect the resulting file of ssh keys for distribution
 nonroot="gsmith"
+# specify input file here:
+input="users.txt"
 
 # convert all student IDs to lowercase:
-cat users.txt | tr [:upper:] [:lower:] > usersL.txt; mv usersL.txt users.txt
+tr '[:upper:]' '[:lower:]' < users.txt > usersL.txt
+mv usersL.txt users.txt
 
 # Length of file
 len=$(wc -l < users.txt)
@@ -23,7 +26,7 @@ count=0
 
 
 # Cycle through student accounts list of X numbers:
-for username in $(cat users.txt)
+while IFS= read -r username
 
         do
         # Create user account
@@ -39,7 +42,7 @@ for username in $(cat users.txt)
         ((++count))
         echo $((count*100/len)) |  dialog --gauge "waiting" 7 50
 
-done
+done < "$input"
 
 # Archive the student private keys in openssh format for delivery:
 zip -r /home/$nonroot/private_keys_$(date +"%d-%m-%y").zip /tmp/id_rsa.*
