@@ -1,9 +1,9 @@
 #!/bin/bash
 
-for username in `cat users.txt`
+for username in $(cat users.txt)
 
         do
-        userdel -f -r $username
+        userdel -f -r "$username"
 
 done
 
