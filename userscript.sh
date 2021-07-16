@@ -15,7 +15,7 @@ nonroot="gsmith"
 # specify input file here:
 input="users.txt"
 
-# convert all student IDs to lowercase:
+# convert all usernames to lowercase:
 tr '[:upper:]' '[:lower:]' < "$input" > usersL.txt
 mv usersL.txt "$input"
 
@@ -44,7 +44,7 @@ while IFS= read -r username
 
 done < "$input"
 
-# Archive the student private keys in openssh format for delivery:
+# Archive the users private keys in openssh format for delivery:
 zip -r /home/$nonroot/private_keys_$(date +"%d-%m-%y").zip /tmp/id_rsa.*
 chmod 644 /home/$nonroot/private_keys_$(date +"%d-%m-%y").zip
 
