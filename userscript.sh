@@ -16,8 +16,8 @@ nonroot="gsmith"
 input="users.txt"
 
 # convert all student IDs to lowercase:
-tr '[:upper:]' '[:lower:]' < users.txt > usersL.txt
-mv usersL.txt users.txt
+tr '[:upper:]' '[:lower:]' < "$input" > usersL.txt
+mv usersL.txt "$input"
 
 # Length of file
 len=$(wc -l < users.txt)
