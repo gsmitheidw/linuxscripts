@@ -1,6 +1,6 @@
 #!/bin/bash
 # Create users, by G. Smith Feb 2014-2021
-# Requires users.txt containing list of student ids (usernames) as input in the current directory
+# Requires users.txt containing list of usernames as input in the current directory
 #
 # Depenencies: putty-tools (for puttygen) for ppk key generation, zip for packing the files for users
 #
@@ -25,7 +25,7 @@ len=$(wc -l < users.txt)
 count=0
 
 
-# Cycle through student accounts list of X numbers:
+# Cycle through user accounts list of X numbers:
 while IFS= read -r username
 
         do
