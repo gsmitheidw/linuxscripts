@@ -17,4 +17,18 @@ ovs-vsctl add-port mybridge eth0
 # get an ip from dhcp:
 dhclient mybridge
 
+# show addresses and route
 ip addr
+ip route show
+
+
+# Now add some virtual adapters for VMs to use
+ip tuntap add mode tap vport1
+ip tuntap add mode tap vport2
+ip link set dev vport1 up
+ip link set dev vport2 up
+
+
+# Add vports to bridge
+ovs-vsctl add-port mybridge vport1
+ovs-vsctl add-port mybridge vport2
