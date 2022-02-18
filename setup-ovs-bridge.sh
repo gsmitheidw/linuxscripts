@@ -34,6 +34,34 @@ ovs-vsctl add-port mybridge vport1
 ovs-vsctl add-port mybridge vport2
 
 # To make these settings persistent they need to added to /etc/network/interfaces eg:
-allow-hotplug eth0
-allow-hotplug mybridge
+
+auto eth0
+auto mybridge
+
+allow-ovs mybridge
 iface mybridge inet dhcp
+ovs_type OVSBridge
+ovsport eth0
+
+allow-mybride eth0
+iface eth0 inet manual
+ovs_bridge mybridge
+ovs_type OVSPort
+
+# example bridge "mybridge" with two physical ports:
+
+
+allow-ovs mybridge
+iface br0 inet dhcp
+    ovs_type OVSBridge
+    ovs_ports eth0 eth1
+
+allow-mybridge eth0
+iface eth0 inet manual
+    ovs_bridge mybridge
+    ovs_type OVSPort
+
+allow-mybridge eth1
+iface eth1 inet manual
+    ovs_bridge mybridge
+    ovs_type OVSPort
