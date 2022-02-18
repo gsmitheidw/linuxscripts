@@ -32,3 +32,8 @@ ip link set dev vport2 up
 # Add vports to bridge
 ovs-vsctl add-port mybridge vport1
 ovs-vsctl add-port mybridge vport2
+
+# To make these settings persistent they need to added to /etc/network/interfaces eg:
+allow-hotplug eth0
+allow-hotplug mybridge
+iface mybridge inet dhcp
