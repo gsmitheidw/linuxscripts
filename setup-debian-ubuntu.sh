@@ -34,7 +34,7 @@ applications=$(dialog --checklist "Choose software"  20 30 30 \
         mc . off \
         lshw . off \
         moreutils . off \
-        iotop . off \
+        # see iotop-c iotop . off \
         mtr . off \
         screenfetch . off \
         freeipmi . off \
@@ -53,9 +53,13 @@ applications=$(dialog --checklist "Choose software"  20 30 30 \
         autossh . off \
         sysstat . off \
         tcpdump . off \
+	chkservice . \
+	#gotop
+	iotop-c . \
         smartmontools . off \
         httping . off \
         netcat . off  2>&1 > /dev/tty)
+	
 
 
 	return_value=$?
