@@ -12,7 +12,7 @@ set -e
 set -o pipefail
 
 # Select a non-root local user to collect the resulting file of ssh keys for distribution
-nonroot="x90021605"
+nonroot="localuser"
 
 # convert all student IDs to lowercase:
 cat users.txt | tr [:upper:] [:lower:] > usersL.txt; mv usersL.txt users.txt
