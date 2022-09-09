@@ -15,7 +15,8 @@ set -o pipefail
 nonroot="localuser"
 
 # convert all student IDs to lowercase:
-cat users.txt | tr [:upper:] [:lower:] > usersL.txt; mv usersL.txt users.txt
+userlist="$(<users.txt)"
+echo "$userlist" | tr [:upper:] [:lower:] > users.txt
 
 # Some random digits in case we run several times to make unique output
 rdn=`echo $RANDOM | head -c 4`
