@@ -12,14 +12,15 @@ set -e
 set -o pipefail
 
 # Select a non-root local user to collect the resulting file of ssh keys for distribution
-nonroot="localuser"
+nonroot="x90021605"
 
 # convert all student IDs to lowercase:
 userlist="$(<users.txt)"
 echo "$userlist" | tr [:upper:] [:lower:] > users.txt
 
-# Some random digits in case we run several times to make unique output
+# Some random digits in case we run several times to ensure unique output each run
 rdn=$(echo $RANDOM | head -c 4)
+rundate=$(date +"%d-%m-%y-$rdn")
 
 # Length of file
 len=$(cat users.txt | wc -l)
@@ -48,14 +49,14 @@ done
 
 
 # Archive the student private keys in openssh format for delivery:
-zip -r /home/$nonroot/"$HOSTNAME"_private_keys_$(date +"%d-%m-%y-$rdn").zip /tmp/id_ed25519.*
-chmod 644 /home/$nonroot/"$HOSTNAME"_private_keys_$(date +"%d-%m-%y-$rdn").zip
+zip -r /home/$nonroot/"$HOSTNAME"_private_keys_$rundate.zip /tmp/id_ed25519.*
+chmod 644 /home/$nonroot/"$HOSTNAME"_private_keys_$rundate.zip
 
 # Clean up cached private keys from temp folder for security:
 
 shred -u -f /tmp/id_ed25519.*
 # backup
-mv --backup=t users.txt users.$(date +"%d-%m-%y_at_%Hh-%Mm-$rdn").log
+mv --backup=t users.txt users.$rundate.log
 
-dialog --msgbox "Complete! file collection "$HOSTNAME"_private_keys_$(date +"%d-%m-%y-$rdn").zip from /home/$nonroot" 7 50
+dialog --msgbox "Complete! file collection "$HOSTNAME"_private_keys_$rundate.zip from /home/$nonroot" 7 50
 clear
