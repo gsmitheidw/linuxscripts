@@ -19,16 +19,16 @@ userlist="$(<users.txt)"
 echo "$userlist" | tr [:upper:] [:lower:] > users.txt
 
 # Some random digits in case we run several times to make unique output
-rdn=`echo $RANDOM | head -c 4`
+rdn=$(echo $RANDOM | head -c 4)
 
 # Length of file
-len=`cat users.txt | wc -l`
+len=$(cat users.txt | wc -l)
 # Start counter at zero
 count=0
 
 
 # Cycle through student accounts list of X numbers:
-for username in `cat users.txt`
+for username in $(cat users.txt)
 
         do
         # Create user account
@@ -48,14 +48,14 @@ done
 
 
 # Archive the student private keys in openssh format for delivery:
-zip -r /home/$nonroot/"$HOSTNAME"_private_keys_`date +"%d-%m-%y-$rdn"`.zip /tmp/id_ed25519.*
-chmod 644 /home/$nonroot/"$HOSTNAME"_private_keys_`date +"%d-%m-%y-$rdn"`.zip
+zip -r /home/$nonroot/"$HOSTNAME"_private_keys_$(date +"%d-%m-%y-$rdn").zip /tmp/id_ed25519.*
+chmod 644 /home/$nonroot/"$HOSTNAME"_private_keys_$(date +"%d-%m-%y-$rdn").zip
 
 # Clean up cached private keys from temp folder for security:
 
 shred -u -f /tmp/id_ed25519.*
 # backup
-mv --backup=t users.txt users.`date +"%d-%m-%y_at_%Hh-%Mm-$rdn"`.log
+mv --backup=t users.txt users.$(date +"%d-%m-%y_at_%Hh-%Mm-$rdn").log
 
-dialog --msgbox "Complete! file collection "$HOSTNAME"_private_keys_`date +"%d-%m-%y-$rdn"`.zip from /home/$nonroot" 7 50
+dialog --msgbox "Complete! file collection "$HOSTNAME"_private_keys_$(date +"%d-%m-%y-$rdn").zip from /home/$nonroot" 7 50
 clear
