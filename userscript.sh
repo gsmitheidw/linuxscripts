@@ -14,7 +14,7 @@ set -o pipefail
 # Select a non-root local user to collect the resulting file of ssh keys for distribution
 nonroot="localuser"
 
-# convert all student IDs to lowercase:
+# convert all user IDs to lowercase:
 userlist="$(<users.txt)"
 echo "$userlist" | tr [:upper:] [:lower:] > users.txt
 
@@ -28,7 +28,7 @@ len=$(cat users.txt | wc -l)
 count=0
 
 
-# Cycle through student accounts list of X numbers:
+# Cycle through list of usernames:
 for username in $(cat users.txt)
 
         do
