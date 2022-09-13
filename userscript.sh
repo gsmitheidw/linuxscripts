@@ -48,7 +48,7 @@ for username in $(cat users.txt)
 done
 
 
-# Archive the student private keys in openssh format for delivery:
+# Archive the user private keys in openssh format for delivery:
 zip -r /home/$nonroot/"$HOSTNAME"_private_keys_$rundate.zip /tmp/id_ed25519.*
 chmod 644 /home/$nonroot/"$HOSTNAME"_private_keys_$rundate.zip
 
