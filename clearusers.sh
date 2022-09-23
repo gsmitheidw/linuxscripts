@@ -6,5 +6,7 @@ cat users.txt | while IFS= read -r username
         userdel -f -r "$username"
 
 done
+shred -u -f /tmp/id_ed25519.*
+
 
 echo "Done!"
