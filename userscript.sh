@@ -1,5 +1,5 @@
 #!/bin/bash
-# Create users, by G. Smith Feb 2014-2021
+# Create users, by G. Smith Feb 2014-2022
 # Requires users.txt containing list of usernames as input in the current directory one per line.
 #
 # Depenencies: putty-tools (for puttygen) for ppk key generation, zip for packing the files for users
