@@ -14,9 +14,9 @@ set -o pipefail
 # Select a non-root local user to collect the resulting file of ssh keys for distribution
 nonroot="localuser"
 
-# convert all user IDs to lowercase:
+# convert all user IDs to lowercase, sort and remove any duplicates:
 userlist="$(<users.txt)"
-echo "$userlist" | tr [:upper:] [:lower:] > users.txt
+echo "$userlist" | tr [:upper:] [:lower:] | sort | uniq > users.txt
 
 # Some random digits in case we run several times to ensure unique output each run
 rdn=$(echo $RANDOM | head -c 4)
