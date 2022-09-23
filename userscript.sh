@@ -18,6 +18,14 @@ nonroot="localuser"
 userlist="$(<users.txt)"
 echo "$userlist" | tr [:upper:] [:lower:] | sort | uniq > users.txt
 
+# Check that users in file don't already exist
+for duplicates in $(cat users.txt)
+do
+
+if getent passwd $duplicates > /dev/null 2>&1; then echo "A user already found on the system" $duplicates ;exit;  fi
+
+done
+
 # Some random digits in case we run several times to ensure unique output each run
 rdn=$(echo $RANDOM | head -c 4)
 rundate=$(date +"%d-%m-%y-$rdn")
