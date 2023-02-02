@@ -134,3 +134,6 @@ proc    /proc    proc    defaults,hidepid=1     0     0
 autossh -o GatewayPorts=true -R 0.0.0.0:8889:127.0.0.1:8889 remotehost -p remoteport -l user -g -v -N
 # tee to stdout and also run anoyther command from the pipe at the same time
 last | grep user | awk -F " " '{print $3}' | sort | uniq -u  | tee >(wc -l)
+# using "who" to identify a remote login and an ip address or hostname with a tty.
+# kill this process to remove the remote login. In this example it is pts/5:
+ps -t pts/5 | awk -F ' ' '{print $1}' | tail -1 | xargs kill -9
