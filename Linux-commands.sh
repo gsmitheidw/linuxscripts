@@ -140,7 +140,7 @@ ps -t pts/5 | awk -F ' ' '{print $1}' | tail -1 | xargs kill -9
 # Proxmox time sync
 apt install chrony
 # This will remove systemd-timesyncd which is replaced by chrony in Proxmox 7+
-echo server '10.10.2.250 iburst' > /etc/chrony/sources.d/local-ntp-server.sources
+echo server '192.168.1.1 iburst' > /etc/chrony/sources.d/local-ntp-server.sources
 systemctl restart chronyd
 #check it's working
 journalctl --since -1h -u chrony
