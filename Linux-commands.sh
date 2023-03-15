@@ -137,3 +137,19 @@ last | grep user | awk -F " " '{print $3}' | sort | uniq -u  | tee >(wc -l)
 # using "who" to identify a remote login and an ip address or hostname with a tty.
 # kill this process to remove the remote login. In this example it is pts/5:
 ps -t pts/5 | awk -F ' ' '{print $1}' | tail -1 | xargs kill -9
+# Proxmox time sync
+apt install chrony
+# This will remove systemd-timesyncd which is replaced by chrony in Proxmox 7+
+echo server '10.10.2.250 iburst' > /etc/chrony/sources.d/local-ntp-server.sources
+systemctl restart chronyd
+#check it's working
+journalctl --since -1h -u chrony
+# Fixing timesync 401 errors following cluster time issues
+# Clear rrd cache
+killall pvestatd
+systemctl stop rrdcached.service
+rrdcached -P FLUSHALL
+systemctl start rrdcached.service
+systemctl start pvestatd.service
+# sync hw clock
+hwclock --systohc
