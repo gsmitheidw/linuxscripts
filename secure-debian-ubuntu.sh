@@ -9,3 +9,5 @@ apt install clamav clamav-daemon -y
 systemctl stop clamav-freshclam
 freshclam
 systemctl start clamav-freshclam
+
+apt install sysstat 
