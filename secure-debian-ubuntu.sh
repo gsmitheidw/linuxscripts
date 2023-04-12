@@ -1,13 +1,36 @@
 # Some snippets to secure and harden a system:
 
-apt install fail2ban git -y
-cd /opt
-git clone --depth 1  https://github.com/CISOfy/lynis
+# Optional Lynis install via git:
+#cd /opt
+#git clone --depth 1  https://github.com/CISOfy/lynis
 #./lynis audit system
 
+# antivirus
 apt install clamav clamav-daemon -y
 systemctl stop clamav-freshclam
 freshclam
 systemctl start clamav-freshclam
 
-apt install sysstat 
+
+apt install fail2ban git lynis debsums chkrootkit sysstat libpam-tmpdir needrestart debsecan apt-listbugs arpwatch -y
+# randomness/entropy
+apt install rng-tools-debian haveged -y
+
+# automation
+# install ansible...
+
+# ensure jails don't get over-written
+cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+
+# unpurged packages:
+dpkg --list | grep ^rc | awk '{ print $2; }'
+# purge:
+apt purge `dpkg --list | grep ^rc | awk '{ print $2; }'`
+
+# automatic updates:
+apt install unattended-upgrades -y
+systemctl start unattended-upgrades
+systemctl enable unattended-upgrades
+unattended-upgrades --dry-run --debug
+
+
