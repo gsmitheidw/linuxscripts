@@ -1,6 +1,9 @@
 # For those times you just can't remember the name of the command that you only use occasionally 
 # These are snippets, not a script!
 
+#find disk serial numbers (replace /devsda )
+udevadm info --query=all --name=/dev/sda | grep ID_SCSI_SERIAL
+
 # live bandwidth usage expressed graphically with ascii
 nload
 speedometer -r eth0 -t eth0
