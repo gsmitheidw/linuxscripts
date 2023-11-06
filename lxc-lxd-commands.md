@@ -11,7 +11,7 @@ Installing LXD container capability on debian:
 LXD is native to Ubuntu, for Debian it may need to be installed by another method than purely apt.
 snapcraft is one way:
 
-```
+```bash
 apt install snapd
 snap install lxd
 lxc init # I've set ipv6 to "none" in this, defaults for the rest
@@ -20,7 +20,7 @@ lxc image alias list images: | grep -i debian
 
 ## Launch and config a container
 
-```
+```bash
 #lxc launch images:{distro}/{version}/{arch} {container-name-here}
 # If you don't choose a container name it'll make up a random one of words:
 lxc launch images:debian/11/amd64 {container name} 
@@ -37,13 +37,13 @@ lxc exec {container name} bash
 ## Potential Firewall issues:
 
 lxd has its own firewall:
-``` 
+```bash
 lxc network set lxdbr0 ipv6.firewall false
 lxc network set lxdbr0 ipv4.firewall false
 ```
 
 ufw needs some allowances:
-``` 
+```bash
 sudo ufw allow in on lxdbr0
 sudo ufw route allow in on lxdbr0
 sudo ufw route allow out on lxdbr0
