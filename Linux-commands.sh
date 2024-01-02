@@ -157,4 +157,11 @@ systemctl start rrdcached.service
 systemctl start pvestatd.service
 # sync hw clock
 hwclock --systohc
+#show hardware info
+lshw  
+#display specific:
+lshw -C display
 ##############################
+# Fix issues with graphics cards and non-free hardware on debian:
+apt install firmware-misc-nonfree
+update-initramfs -u
