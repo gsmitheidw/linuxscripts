@@ -12,12 +12,15 @@ freshclam
 systemctl start clamav-freshclam
 
 
-apt install fail2ban git lynis debsums chkrootkit sysstat libpam-tmpdir needrestart debsecan apt-listbugs arpwatch -y
+apt install fail2ban git debsums chkrootkit sysstat libpam-tmpdir needrestart debsecan apt-listbugs arpwatch -y
 # randomness/entropy
 apt install rng-tools-debian haveged -y
 
+# install lynis
+# see lynis CIS apt repo...
+
 # automation
-# install ansible...
+# install ansible (if reqired)
 
 # ensure jails don't get over-written
 cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
