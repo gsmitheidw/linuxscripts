@@ -165,3 +165,6 @@ lshw -C display
 # Fix issues with graphics cards and non-free hardware on debian:
 apt install firmware-misc-nonfree
 update-initramfs -u
+# markdown render on cli: (cross platform but requires less from on windows in choco)
+glow from https://github.com/charmbracelet/glow/
+
