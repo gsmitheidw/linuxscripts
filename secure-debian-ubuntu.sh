@@ -18,6 +18,19 @@ apt install rng-tools-debian haveged -y
 
 # install lynis
 # see lynis CIS apt repo...
+curl -fsSL https://packages.cisofy.com/keys/cisofy-software-public.key | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/cisofy-software-public.gpg
+echo "deb [arch=amd64,arm64 signed-by=/etc/apt/trusted.gpg.d/cisofy-software-public.gpg] https://packages.cisofy.com/community/lynis/deb/ stable main" | sudo tee /etc/apt/sources.list.d/cisofy-lynis.list
+apt install apt-transport-https
+echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99disable-translations
+echo "deb https://packages.cisofy.com/community/lynis/deb/ stable main" | sudo tee /etc/apt/sources.list.d/cisofy-lynis.list
+apt update&&apt install lynis -y
+
+touch /etc/apt/preferences.d/lynis
+cat <<EOF > /etc/apt/preferences.d/lynis
+Package: lynis
+Pin: origin packages.cisofy.com
+Pin-Priority: 600
+EOF
 
 # automation
 # install ansible (if reqired)
